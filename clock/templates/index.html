@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Windows Command Prompt Stopwatch</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- CMD Header Rows -->
+    <div class="terminal-line">Microsoft Windows [Version 10.0.19045]</div>
+    <div class="terminal-line">(c) Microsoft Corporation. All rights reserved.</div>
+    <div class="terminal-line"></div> <!-- Empty line for vertical spacing -->
+    
+    <!-- Active Prompt Row -->
+    <div class="terminal-line">C:\Users\Developer\Stopwatch&gt;</div>
+    
+    <!-- Stopwatch Numbers Row (Stacked cleanly beneath the prompt) -->
+    <div class="time-display" id="time-readout">0.000</div>
+
+    <!-- Instructions Rows -->
+    <div class="terminal-line"></div> <!-- Empty line for vertical spacing -->
+    <div class="terminal-line">Press [SPACEBAR] to Start/Stop the stopwatch.</div>
+    <div class="terminal-line">Press [R] to Reset the clock to zero.</div>
+    <div class="terminal-line"></div>
+    <div class="terminal-line">The next part is a clock</div>
+    
+    <div class="terminal-line">Current System Time: <span id="clock-readout">00:00:00</span></div>
+
+    <!-- Place this at the absolute bottom of your HTML body -->
+    <script src="{{ url_for('static', filename='settings.js') }}"></script>
+</body>
+</html>

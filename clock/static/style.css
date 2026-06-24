@@ -1,0 +1,21 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    padding: 20px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.terminal-line {
+    margin-bottom: 4px;
+    white-space: pre-wrap; /* Keeps spaces looking sharp */
+}
+
+.time-display {
+    color: white; /* Retro matrix green text */
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
