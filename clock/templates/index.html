@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Windows Command Prompt Stopwatch</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- CMD Header Rows -->
+    <div class="terminal-line">Microsoft Windows [Version 10.0.19045]</div>
+    <div class="terminal-line">(c) Microsoft Corporation. All rights reserved.</div>
+    <div class="terminal-line"></div> <!-- Empty line for vertical spacing -->
+    
+    <!-- Active Prompt Row -->
+    <div class="terminal-line">C:\Users\Developer\Stopwatch&gt;</div>
+    
+    <!-- Stopwatch Numbers Row (Stacked cleanly beneath the prompt) -->
+    <div class="time-display" id="time-readout">0.000</div>
+
+    <!-- Instructions Rows -->
+    <div class="terminal-line"></div> <!-- Empty line for vertical spacing -->
+    <div class="terminal-line">Press [SPACEBAR] to Start/Stop the stopwatch.</div>
+    <div class="terminal-line">Press [R] to Reset the clock to zero.</div>
+
+    <script>
+        let intervalId = null;
+
+        // Listen for Keyboard Keypress Actions
+        document.addEventListener('keydown', function(event) {
+            // 1. SPACEBAR: Start / Stop Toggle
+            if (event.code === 'Space') {
+                event.preventDefault(); // Stop webpage scrolling
+                
+                fetch('/start', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'started') {
+                            if (!intervalId) {
+                                intervalId = setInterval(updateTime, 10); // Loop every 10ms
+                            }
+                        } else if (data.status === 'stopped') {
+                            clearInterval(intervalId);
+                            intervalId = null;
+                        }
+                    });
+            }
+            
+            // 2. 'R' KEY: Reset Action
+            if (event.key.toLowerCase() === 'r') {
+                fetch('/reset', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'resetted') {
+                            clearInterval(intervalId);
+                            intervalId = null;
+                            document.getElementById('time-readout').innerText = "0.000";
+                        }
+                    });
+            }
+        });
+
+        // Loop worker: Fetches data and updates screen
+        function updateTime() {
+            fetch('/time')
+                .then(response => response.json())
+                .then(data => {
+                    let elapsed = data.elapsed_time.toFixed(3);
+                    document.getElementById('time-readout').innerText = elapsed;
+                });
+        }
+    </script>
+</body>
+</html>
